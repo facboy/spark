@@ -117,7 +117,7 @@
           <filters>
             <filter>
               <artifact>*:*</artifact>
-              <excludes>
+              <excludes combine.children="append">
                 <exclude>org/datanucleus/**</exclude>
                 <exclude>META-INF/*.SF</exclude>
                 <exclude>META-INF/*.DSA</exclude>
@@ -363,6 +363,134 @@
           <version>${commons.httpclient.version}</version>
         </dependency>
       </dependencies>
+    </profile>
+    <profile>
+      <id>byhiras</id>
+      <properties>
+        <guice.version>4.0-beta5</guice.version>
+        <avro.version>1.7.6-byhiras-2-SNAPSHOT</avro.version>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>javax/ws/rs/**</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro-mapred</artifactId>
+            <version>${avro.version}</version>
+            <classifier>hadoop2</classifier>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-hive_2.10</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>servlet-api</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-hive-thriftserver_2.10</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.eclipse.jetty.aggregate</groupId>
+                <artifactId>jetty-all</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-yarn-alpha_2.10</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice-servlet</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.google.inject.extensions</groupId>
+                <artifactId>guice-servlet</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-json</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-server</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.jersey.contribs</groupId>
+                <artifactId>jersey-guice</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.jersey.jersey-test-framework</groupId>
+                <artifactId>jersey-test-framework-grizzly2</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-core</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-server</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.jboss.netty</groupId>
+                <artifactId>netty</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+
+          <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <version>${guice.version}</version>
+          </dependency>
+          <dependency>
+            <!-- assembly seems to pick the wrong version sometimes -->
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.8.0.Final</version>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
     </profile>
   </profiles>
 </project>
