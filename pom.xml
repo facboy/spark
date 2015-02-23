@@ -1461,6 +1461,8 @@
       <id>byhiras</id>
       <properties>
         <guice.version>4.0-beta5</guice.version>
+        <jetty.version>8.1.16.v20140903</jetty.version>
+        <avro.version>1.7.6-byhiras-2-SNAPSHOT</avro.version>
       </properties>
       <dependencyManagement>
         <dependencies>
