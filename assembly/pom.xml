@@ -366,10 +366,6 @@
     </profile>
     <profile>
       <id>byhiras</id>
-      <properties>
-        <guice.version>4.0-beta5</guice.version>
-        <avro.version>1.7.6-byhiras-2-SNAPSHOT</avro.version>
-      </properties>
       <build>
         <plugins>
           <plugin>
