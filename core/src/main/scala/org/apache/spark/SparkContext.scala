@@ -1293,7 +1293,8 @@ class SparkContext(config: SparkConf) extends Logging with ExecutorAllocationCli
    */
   private[spark] def getCallSite(): CallSite = {
     Option(getLocalProperty(CallSite.SHORT_FORM)).map { case shortCallSite =>
-      val longCallSite = Option(getLocalProperty(CallSite.LONG_FORM)).getOrElse("")
+      val longCallSite = Option(getLocalProperty(CallSite.LONG_FORM))
+        .getOrElse(Utils.getCallSite().longForm)
       CallSite(shortCallSite, longCallSite)
     }.getOrElse(Utils.getCallSite())
   }
