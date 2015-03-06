@@ -1296,7 +1296,11 @@ class SparkContext(config: SparkConf) extends Logging with ExecutorAllocationCli
       val longCallSite = Option(getLocalProperty(CallSite.LONG_FORM))
         .getOrElse(Utils.getCallSite().longForm)
       CallSite(shortCallSite, longCallSite)
-    }.getOrElse(Utils.getCallSite())
+    }.getOrElse(Option(getLocalProperty("callSite.label")).map {
+      case callSiteLabel =>
+        val callSite = Utils.getCallSite()
+        CallSite("[" + callSiteLabel + "] " + callSite.shortForm, callSite.longForm)
+    }.getOrElse(Utils.getCallSite()))
   }
 
   /**
